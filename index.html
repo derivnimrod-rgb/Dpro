@@ -3,166 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DERIVTRADER | Professional Automation Hub</title>
+    <title>DERIVTRADER | Live Workspace Terminal</title>
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --bg-nav: #030712;
-            --bg-card: #111827;
-            --bg-sidebar: #1f2937;
-            --text-main: #ffffff;
-            --text-muted: #9ca3af;
-            --accent-blue: #2563eb;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
+            --bg-nav: #0b1329;
+            --bg-main: #111c44;
+            --bg-card: #1b254b;
+            --accent: #00ebc7;
+            --accent-hover: #00bfa3;
+            --text-white: #ffffff;
+            --text-muted: #a3b1cc;
+            --danger: #ff5c5c;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { background-color: var(--bg-main); color: var(--text-white); font-size: 14px; min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* Top Navigation Header Bar */
-        header { background-color: var(--bg-nav); border-bottom: 1px solid #1f2937; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 10; }
-        .logo { font-size: 20px; font-weight: 800; color: var(--accent-green); text-decoration: none; letter-spacing: 0.5px; }
+        /* Navigation and Header bar Layout */
+        header { background-color: var(--bg-nav); border-bottom: 2px solid #243b80; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: 800; color: var(--accent); text-decoration: none; letter-spacing: 1px; }
         .logo span { color: #fff; }
-        .header-actions { display: flex; gap: 12px; }
-        .btn-header { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; }
-        .btn-login { background-color: var(--accent-blue); color: #fff; }
-        .btn-signup { background-color: var(--accent-green); color: #000; }
-
-        /* Secondary Sub-Navbar Menu Layout */
-        .sub-nav { background-color: var(--accent-blue); display: flex; overflow-x: auto; padding: 0 10px; height: 45px; align-items: center; gap: 5px; }
-        .nav-tab { color: #fff; padding: 8px 16px; text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 4px; white-space: nowrap; display: flex; align-items: center; gap: 6px; cursor: pointer; }
-        .nav-tab:hover, .nav-tab.active { background-color: rgba(25px, 25px, 25px, 0.2); font-weight: 700; }
-
-        /* Main Workspace Container Details */
-        .workspace { display: flex; flex: 1; overflow: hidden; }
-        .main-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        .top-actions { display: flex; gap: 12px; }
+        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 13px; cursor: pointer; border: none; display: inline-flex; align-items: center; }
+        .btn-success { background-color: var(--accent); color: #0b1329; }
+        .btn-success:hover { background-color: var(--accent-hover); }
         
-        /* Central Workspace Bot Management Layout Grid */
-        .bot-center-grid { display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-card); border: 1px dashed #374151; border-radius: 12px; padding: 40px 20px; text-align: center; flex: 1; min-height: 350px; }
-        .search-container { display: flex; width: 100%; max-width: 500px; margin-bottom: 30px; border-radius: 6px; overflow: hidden; border: 1px solid #374151; }
-        .search-select { background: #1f2937; color: #fff; border: none; padding: 0 15px; font-size: 13px; outline: none; }
-        .search-input { flex: 1; background: #1f2937; border: none; padding: 12px; color: #fff; font-size: 13px; border-left: 1px solid #374151; outline: none; }
-        .search-btn { background: var(--accent-blue); border: none; color: white; padding: 0 20px; cursor: pointer; }
+        .utility-ribbon { background-color: #0d1b3e; border-bottom: 1px solid #1f3570; overflow-x: auto; white-space: nowrap; display: flex; gap: 4px; padding: 4px 12px; }
+        .ribbon-item { padding: 10px 16px; color: var(--text-muted); font-size: 13px; border: none; background: transparent; font-weight: 500; cursor: pointer; }
+        .ribbon-item.active { background-color: #1e3264; color: #fff; border-radius: 4px; }
         
-        .bot-actions-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
-        .action-card { background: #1f2937; border: 1px solid #374151; padding: 15px 25px; border-radius: 8px; min-width: 140px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform 0.2s; }
-        .action-card:hover { transform: translateY(-2px); border-color: var(--accent-blue); }
-        .action-icon { font-size: 20px; }
+        /* Workplace Structure */
+        .app-workspace { flex: 1; display: grid; grid-template-columns: 1fr 340px; }
+        .main-deck { padding: 20px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+        .side-panel { background-color: var(--bg-nav); border-left: 2px solid #243b80; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
-        .signals-scanner { background: #1f2937; border: 1px solid #374151; border-radius: 8px; width: 100%; max-width: 600px; padding: 20px; text-align: left; }
-        .scanner-header { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .live-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; }
-        .scanner-body { color: var(--text-muted); font-size: 13px; display: flex; align-items: center; gap: 10px; justify-content: center; padding: 20px 0; }
+        /* Action Grid System */
+        .action-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .action-card { background-color: var(--bg-card); border: 1px solid #2d3e75; padding: 16px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .action-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .card-icon { font-size: 22px; margin-bottom: 6px; }
+        .card-title { font-weight: 600; font-size: 13px; }
 
-        /* Right Execution Analytics Logs Sidebar */
-        .right-sidebar { width: 320px; background-color: var(--bg-card); border-left: 1px solid #1f2937; display: flex; flex-direction: column; z-index: 5; }
-        .sidebar-header { border-bottom: 1px solid #1f2937; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .btn-run { background-color: var(--accent-green); color: #000; font-weight: 700; padding: 6px 16px; border-radius: 4px; border: none; cursor: pointer; font-size: 13px; }
-        .btn-run:hover { opacity: 0.9; }
-        
-        .sidebar-tabs { display: flex; border-bottom: 1px solid #1f2937; background: #0b0f19; }
-        .side-tab { flex: 1; text-align: center; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
-        .side-tab.active { color: #fff; border-bottom: 2px solid var(--accent-blue); background: var(--bg-card); }
-        
-        .sidebar-content { flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--text-muted); font-size: 13px; }
-        .sidebar-footer { border-top: 1px solid #1f2937; padding: 15px; background: #0b0f19; }
-        .metric-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 8px; color: var(--text-muted); }
-        .metric-row span.val { color: #fff; font-weight: 600; }
+        /* Direct Embedded Execution Frame Box */
+        .trading-container { flex: 1; background-color: #131722; border: 2px solid #2d3e75; border-radius: 12px; overflow: hidden; min-height: 480px; position: relative; }
+        .trading-iframe { width: 100%; height: 100%; border: none; }
 
-        /* General Keyframe Animations */
-        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        @media (max-width: 1024px) { .right-sidebar { display: none; } }
+        /* Metrics Sidebar Display Components */
+        .side-header { font-size: 15px; font-weight: 700; padding-bottom: 10px; border-bottom: 1px solid #243b80; display: flex; justify-content: space-between; align-items: center; }
+        .pulse-dot { width: 10px; height: 10px; background-color: #38ef7d; border-radius: 50%; box-shadow: 0 0 8px #38ef7d; }
+        .log-box { background-color: #0d1b3e; padding: 14px; border-radius: 8px; border: 1px solid #1f3570; min-height: 120px; font-size: 13px; color: var(--text-muted); }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-box { background: #13224d; padding: 12px; border-radius: 6px; border: 1px solid #243b80; }
+        .stat-val { font-size: 16px; font-weight: 700; margin-top: 4px; }
+
+        @media (max-width: 992px) { .app-workspace { grid-template-columns: 1fr; } .side-panel { border-left: none; border-top: 2px solid #243b80; } }
     </style>
 </head>
 <body>
 
-    <!-- Header Panel Bar -->
+    <!-- Upper Main Ribbon Layout Control -->
     <header>
         <a href="#" class="logo">DERIV<span>TRADER</span></a>
-      <div class="header-actions">
-    <div class="header-actions">
-    <a href="https://deriv.com" target="_blank" class="btn-header btn-login">Log In</a>
-    <a href="https://deriv.com" target="_blank" class="btn-header btn-signup">Sign up</a>
-</div>
-
-</div>
-
+        <div class="top-actions">
+            <a href="https://deriv.com" target="_blank" class="btn btn-success" style="background-color: #7012a6; color: #fff; margin-right: 6px;">Withdraw</a>
+            <a href="https://deriv.com" target="_blank" class="btn btn-success" style="background-color: #1a49f0; color: #fff; margin-right: 6px;">Log In</a>
+            <a href="https://deriv.com" target="_blank" class="btn btn-success">Sign up</a>
+        </div>
     </header>
 
-    <!-- Sub-Navigation Action Grid Tabs -->
-    <div class="sub-nav">
-        <div class="nav-tab active">📊 Dashboard</div>
-        <div class="nav-tab">⚙️ Bot Builder</div>
-        <div class="nav-tab">🤖 Trading Bots</div>
-        <div class="nav-tab">📦 Bulk Trader</div>
-        <div class="nav-tab">🧠 Pro AI</div>
-        <div class="nav-tab">📈 Copy Trading</div>
-        <div class="nav-tab">📉 TradingView</div>
+    <div class="utility-ribbon">
+        <button class="ribbon-item active">🌐 Live Terminal</button>
+        <button class="ribbon-item">🤖 Bot Framework</button>
+        <button class="ribbon-item">👥 Managed Copy</button>
+        <button class="ribbon-item">📈 Multi-Charts</button>
     </div>
 
-    <!-- Layout Workspace Structure -->
-    <div class="workspace">
+    <!-- Active Interface Area -->
+    <div class="app-workspace">
         
-        <!-- Center Trading Canvas Panel Workspace -->
-        <main class="main-content">
-            <div class="bot-center-grid">
-                
-                <!-- Advanced Input Field Bar Components -->
-                <div class="search-container">
-                    <select class="search-select">
-                        <option>All Assets</option>
-                        <option>Volatility Indices</option>
-                        <option>Crash & Boom</option>
-                    </select>
-                    <input type="text" class="search-input" placeholder="Search or select pre-loaded bot configurations...">
-                    <button class="search-btn">🔍</button>
+        <!-- Live Center Stream Engine Layout -->
+        <main class="main-deck">
+            <div class="action-cards">
+                <div class="action-card" onclick="triggerBotLoad('Volatility Automated System')">
+                    <div class="card-icon" style="color: #4facfe;">📥</div>
+                    <div class="card-title">Load Bot</div>
                 </div>
-
-                <!-- Strategic Management Execution Actions -->
-                <div class="bot-actions-row">
-                    <div class="action-card" onclick="alert('Load your custom XML Bot File here!')">
-                        <span class="action-icon">📂</span>
-                        <span>Load Bot</span>
-                    </div>
-                    <div class="action-card">
-                        <span class="action-icon">👑</span>
-                        <span>Premium Bots</span>
-                    </div>
-                    <div class="action-card">
-                        <span class="action-icon">🎁</span>
-                        <span>Free Bots</span>
-                    </div>
-                    <div class="action-card">
-                        <span class="action-icon">🧪</span>
-                        <span>Analysis Tool</span>
-                    </div>
+                <div class="action-card" onclick="triggerBotLoad('Premium Trend Follower')">
+                    <div class="card-icon" style="color: #ffb300;">💎</div>
+                    <div class="card-title">Premium Bots</div>
                 </div>
-
-                <!-- Asset Scanning Diagnostics Layout -->
-                <div class="signals-scanner">
-                    <div class="scanner-header">
-                        <span class="live-dot"></span>
-                        <span>Live Trading Signal Feed Scanner</span>
-                    </div>
-                    <div class="scanner-body">
-                        <span>🔄 Connecting to markets... scanning Volatility Index data streams...</span>
-                    </div>
+                <div class="action-card" onclick="triggerBotLoad('Free Martingale XML')">
+                    <div class="card-icon" style="color: #00ebc7;">🚀</div>
+                    <div class="card-title">Free Bots</div>
                 </div>
+                <div class="action-card" onclick="alert('Opening technical market indicators array...')">
+                    <div class="card-icon" style="color: #a18cd1;">📊</div>
+                    <div class="card-title">Analysis Tool</div>
+                </div>
+            </div>
 
+            <!-- Embedded Live Direct Execution Trading Frame Box -->
+            <div class="trading-container" id="terminal-screen">
+                <iframe class="trading-iframe" src="https://deriv.com"></iframe>
             </div>
         </main>
 
-        <!-- Right System Metrics Run Dashboard Sidebar -->
-        <aside class="right-sidebar">
-            <div class="sidebar-header">
-                <button class="btn-run" onclick="alert('Connect your main account to launch transaction streams!')">▶ Run Bot</button>
-                <div style="font-size: 11px; color: var(--text-muted)">Execution: <span style="color:var(--accent-green); font-weight:700;">FAST</span></div>
-            </div>
-            
-            <div class="sidebar-tabs">
-                <div class="side-tab active">Summary</div>
-                <div class="side-tab">Transactions</div>
-                <div class="side-tab">Journal</div>
+        <!-- Right Side Parameter Script Tracks -->
+        <aside class="side-panel">
+            <div class="side-header">
+                <span>Terminal Engine</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 11px; color: var(--text-muted);">ACTIVE SHIELD</span>
+                    <div class="pulse-dot"></div>
+                </div>
             </div>
 
-            <div class="sidebar-content">
+            <div class="log-box" id="system-logger">
+                System online. Select "Load Bot" or "Free Bots" from the top panel matrix grid to inject automated script parameters directly onto the SmartTrader execution canvas below.
+            </div>
+
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div style="color: var(--text-muted); font-size: 11px;">Active Stake</div>
+                    <div class="stat-val" style="color: #fff;">0.00 KES</div>
+                </div>
+                <div class="stat-box">
+                    <div style="color: var(--text-muted); font-size: 11px;">Scripts Active</div>
+                    <div class="stat-val" style="color: #ffb300;" id="active-count">0</div>
+                </div>
+                <div class="stat-box">
+                    <div style="color: var(--text-muted); font-size: 11px;">Target Wins</div>
+                    <div class="stat-val" style="color: #38ef7d;">0</div>
+                </div>
+                <div class="stat-box">
+                    <div style="color: var(--text-muted); font-size: 11px;">Net PnL</div>
+                    <div class="stat-val" style="color: var(--accent);">0.00 USD</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Active Runtime Automated Script Injections -->
+    <script>
+        function triggerBotLoad(botName) {
+            const logger = document.getElementById('system-logger');
+            const countDisplay = document.getElementById('active-count');
+            
+            logger.innerHTML = `⚠️ <b>Injected:</b> ${botName} script initialized successfully. Ready to run parameters directly on the web application container layout below.`;
+            logger.style.color = "#00ebc7";
+            countDisplay.innerText = "1";
+            
+            alert(`Automated strategy [ ${botName} ] loaded into your layout workspace successfully!`);
+        }
+    </script>
+</body>
+</html>
